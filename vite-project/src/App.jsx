@@ -28,6 +28,13 @@ function App() {
     setNewTask(event.target.value);
   };
 
+  const scrollToElement = (elementId) => {
+    const element = document.getElementById(elementId);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       addTask();
@@ -41,6 +48,7 @@ function App() {
       completed: false,
     };
     setTodoList([...todoList, task]);
+    scrollToElement("footer");
   };
 
   const deleteTask = (id) => {
@@ -73,11 +81,8 @@ function App() {
           onChange={handleChange}
           onKeyDown={handleKeyDown}
         />
-        <button
-          className="add-button"
-          onClick={addTask}
-          onKeyDown={(e) => e.key === "Enter" && addTask()}
-        >
+
+        <button className="add-button" onClick={addTask}>
           Add task
         </button>
 
@@ -90,6 +95,7 @@ function App() {
           ) : (
             todoList.map((task) => (
               <Card
+                key={task.id}
                 taskName={task.taskName}
                 id={task.id}
                 completed={task.completed}
@@ -100,7 +106,7 @@ function App() {
           )}
         </div>
       </div>
-      <footer className="copyright">
+      <footer id="footer" className="copyright">
         &copy; {new Date().getFullYear()} Yuliia Davydenko. All rights reserved.
       </footer>
     </div>
