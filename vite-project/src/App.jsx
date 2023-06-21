@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Card from "./Card";
 import tasks from "./tasks.js";
 import "typeface-open-sans";
@@ -23,6 +23,7 @@ function App() {
     },
   ]);
   const [newTask, setNewTask] = useState("");
+  const listRef = useRef(null);
 
   const handleChange = (event) => {
     setNewTask(event.target.value);
@@ -41,6 +42,14 @@ function App() {
       completed: false,
     };
     setTodoList([...todoList, task]);
+
+    // Scroll to the newly created task
+    setTimeout(() => {
+      listRef.current.scrollTo({
+        top: listRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }, 0);
   };
 
   const deleteTask = (id) => {
@@ -81,7 +90,7 @@ function App() {
           Add task
         </button>
 
-        <div className="List">
+        <div className="List" ref={listRef}>
           {todoList.length === 0 ? (
             <h1>
               You have no tasks for today. <br></br>Create one or enjoy your
@@ -100,7 +109,7 @@ function App() {
           )}
         </div>
       </div>
-      <footer className="copyright">
+      <footer id="copyright" className="copyright">
         &copy; {new Date().getFullYear()} Yuliia Davydenko. All rights reserved.
       </footer>
     </div>
