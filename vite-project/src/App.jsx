@@ -1,13 +1,12 @@
-
-
-import React, { useState } from 'react';
-import Card from './Card';
-import tasks from './tasks.js';
-import 'typeface-open-sans';
-import './styles.css';
+import React, { useState } from "react";
+import Card from "./Card";
+import tasks from "./tasks.js";
+import "typeface-open-sans";
+import "./styles.css";
 
 function App() {
-  const productivityImageURL = 'https://clickup.com/blog/wp-content/uploads/2019/04/measuring-productivity.png'; 
+  const productivityImageURL =
+    "https://clickup.com/blog/wp-content/uploads/2019/04/measuring-productivity.png";
 
   const [todoList, setTodoList] = useState([
     {
@@ -23,10 +22,16 @@ function App() {
       taskName: "Eat breakfast",
     },
   ]);
-  const [newTask, setNewTask] = useState('');
+  const [newTask, setNewTask] = useState("");
 
   const handleChange = (event) => {
     setNewTask(event.target.value);
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      addTask();
+    }
   };
 
   const addTask = () => {
@@ -56,20 +61,32 @@ function App() {
 
   return (
     <div className="App">
-    <h1>First and upmost todo-List!</h1>
-    <img
+      <h1>First and upmost todo-List!</h1>
+      <img
         src={productivityImageURL}
         alt="Productivity"
         className="rounded-image"
       />
       <div className="addTask">
-        <input className="input-1" onChange={handleChange} />
-        <button className="add-button" onClick={addTask}>
+        <input
+          className="input-1"
+          onChange={handleChange}
+          onKeyDown={handleKeyDown}
+        />
+        <button
+          className="add-button"
+          onClick={addTask}
+          onKeyDown={(e) => e.key === "Enter" && addTask()}
+        >
           Add task
         </button>
+
         <div className="List">
           {todoList.length === 0 ? (
-            <h1>You have no tasks for today. <br></br>Create one or enjoy your free time! :)</h1>
+            <h1>
+              You have no tasks for today. <br></br>Create one or enjoy your
+              free time! :)
+            </h1>
           ) : (
             todoList.map((task) => (
               <Card
